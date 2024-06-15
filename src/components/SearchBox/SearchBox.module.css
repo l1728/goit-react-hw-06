@@ -1,0 +1,17 @@
+.containerSearchForm {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+.labelSearchForm {
+  font-size: 24px;
+  color: bisque;
+}
+.inputSearchForm {
+  font-size: 20px;
+  color: azure;
+  height: 40px;
+  width: 360px;
+  border-radius: 8px;
+  border: 1px solid green;
+}

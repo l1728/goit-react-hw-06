@@ -1,0 +1,54 @@
+.containerContacts {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 10px;
+}
+
+.containerContact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid green;
+  border-radius: 8px;
+  width: 280px;
+}
+
+.icon {
+  margin-right: 5px;
+  color: green;
+}
+
+.dataContact {
+  display: flex;
+  align-items: center;
+  color: bisque;
+  margin: 0;
+  font-size: 20px;
+  padding: 5px;
+}
+.contactName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px;
+}
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+}
+.deleteBtn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.deleteBtn:hover {
+  background-color: #5e0404;
+  color: white;
+}
