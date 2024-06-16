@@ -1,14 +1,38 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { combineReducers } from "@reduxjs/toolkit";
 import contactsReducer from './contactsSlice';
 import filtersReducer from './filtersSlice';
+const persistConfig = {
+    key: 'contacts',
+    storage,
+    whitelist: ['items'],
+};
 
-
-export const store = configureStore({
-    reducer: {
-        contacts: contactsReducer,
-        filters: filtersReducer,
-    },
+const rootReducer = combineReducers({
+    contacts: persistReducer(persistConfig, contactsReducer),
+    filters: filtersReducer,
 });
 
-export default store;
+
+
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+      },
+    }),
+  devTools: import.meta.env.NODE_ENV !== 'production', // Увімкнення DevTools у режимі розробки
+});
+
+const persistor = persistStore(store);
+
+
+
+
+
+export   { store, persistor };
 

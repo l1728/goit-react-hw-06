@@ -1,10 +1,16 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact, selectContacts } from '../../redux/contactsSlice';
 import styles from './ContactForm.module.css';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
-const ContactForm = ({ addContact }) => {
+const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -20,11 +26,32 @@ const ContactForm = ({ addContact }) => {
         .required('Required'),
     }),
     onSubmit: (values, { resetForm }) => {
-      addContact({
+      const newContact = {
         id: nanoid(),
         name: values.name,
         number: values.number,
-      });
+      };
+      if (
+        contacts.some(
+          contact =>
+            contact.name.toLowerCase() === newContact.name.toLowerCase()
+        )
+      ) {
+        iziToast.error({
+          title: 'Error',
+          message: `${newContact.name} is already in contacts.`,
+          position: 'topCenter',
+          timeout: 5000,
+          backgroundColor: '#F44336',
+          titleColor: '#FFFFFF',
+          messageColor: '#FFFFFF',
+          titleSize: '24px',
+          messageSize: '22px',
+          class: styles.customToast,
+        });
+        return;
+      }
+      dispatch(addContact(newContact));
       resetForm();
     },
   });
@@ -73,10 +100,6 @@ const ContactForm = ({ addContact }) => {
       </button>
     </form>
   );
-};
-
-ContactForm.propTypes = {
-  addContact: PropTypes.func.isRequired,
 };
 
 export default ContactForm;
